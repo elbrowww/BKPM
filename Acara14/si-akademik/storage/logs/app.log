@@ -1,4 +1,0 @@
-[2026-10-07 15:30:42] ERROR: Gagal menambah mahasiswa | 
-PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 
-Table 'si_akademik.mahasiswa_x' doesn't exist (MahasiswaRepository.php:59) 
-| {"nim":"2401006"}
