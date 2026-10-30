@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 30px auto; }
+    header { display: flex; justify-content: space-between; align-items: center; }
+    .ringkasan { background: #eef; padding: 16px; margin: 16px 0; border-radius: 6px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #999; padding: 6px; text-align: left; }
+  </style>
+  <!-- Langkah 4: lindungi halaman, dijalankan sebelum konten dimuat -->
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Dashboard</h1>
+    <div>
+      Role: <strong id="info-role"></strong>
+      <!-- Tugas 1: tombol logout -->
+      <button id="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <!-- Langkah 5: ringkasan data -->
+  <div class="ringkasan">
+    Total Mahasiswa: <strong id="total-mahasiswa">...</strong>
+  </div>
+
+  <!-- Tombol khusus admin (disembunyikan untuk user, Tugas 2) -->
+  <p class="aksi-admin"><button id="btn-tambah">Tambah</button></p>
+
+  <table id="tabel-mahasiswa">
+    <thead><tr><th>NIM</th><th>Nama</th><th>Program Studi</th><th class="aksi-admin">Aksi</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
