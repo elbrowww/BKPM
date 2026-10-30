@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Sistem Informasi Akademik</title>
+  <link rel="stylesheet" href="ui.css">
+  <style>
+    *{box-sizing:border-box} body{max-width:none;padding:0;font-family:Arial,sans-serif;background:#f3f5f9;margin:0;min-height:100vh;display:grid;place-items:center;color:#243047}
+    .card{background:#fff;width:min(390px,92vw);padding:30px;border-radius:14px;box-shadow:0 8px 28px #18233a18}
+    h1{margin:0 0 8px} p{color:#64748b;margin:0 0 22px} label{display:block;margin:14px 0 6px;font-weight:600}
+    input{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}
+    button{width:100%;padding:12px;margin-top:20px;border:0;border-radius:7px;background:#2457a7;color:white;font-weight:bold;cursor:pointer}
+    .hint{font-size:13px;margin-top:18px;line-height:1.6;background:#f1f5f9;padding:12px;border-radius:7px}
+    #pesan{margin-top:12px;color:#b42318;font-size:14px;min-height:18px}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Login</h1><p>Sistem Informasi Akademik</p>
+    <form id="form-login">
+      <label for="username">Username</label><input type="text" id="username" autocomplete="username" required>
+      <label for="password">Password</label><input type="password" id="password" autocomplete="current-password" required>
+      <button type="submit">Masuk</button>
+      <div id="pesan" role="alert"></div>
+    </form>
+    <div class="hint"><b>Akun pengujian</b><br>Admin: admin / admin123<br>User: user / user123</div>
+  </main>
+  <script src="ui.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>
