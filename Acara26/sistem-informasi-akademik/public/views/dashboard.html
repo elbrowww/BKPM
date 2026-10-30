@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Sistem Informasi Akademik</title>
+  <style>
+    *{box-sizing:border-box}body{font-family:Arial,sans-serif;max-width:1100px;margin:32px auto;padding:0 18px;color:#243047;background:#f8fafc}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{margin:0}.akun{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .ringkasan{background:#eaf1ff;padding:18px;border-radius:10px;margin:22px 0;font-size:17px}.toolbar{display:flex;justify-content:space-between;align-items:center;margin:18px 0;gap:10px;flex-wrap:wrap}
+    button{border:0;border-radius:6px;padding:9px 13px;background:#2457a7;color:white;cursor:pointer}button.hapus{background:#b42318}button.keluar{background:#475569}button:disabled{opacity:.6;cursor:wait}
+    .table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;background:#fff}th,td{border:1px solid #cbd5e1;padding:10px;text-align:left}th{background:#eaf0f8}td button{margin:3px}
+    .foto{width:58px;height:58px;object-fit:cover;border-radius:8px;background:#e2e8f0}.tanpa-foto{display:inline-grid;place-items:center;width:58px;height:58px;border-radius:8px;background:#e2e8f0;color:#64748b;font-size:11px}
+    dialog{border:0;border-radius:12px;padding:24px;width:min(480px,94vw);box-shadow:0 12px 40px #0f172a30}dialog::backdrop{background:#0f172a80}label{display:block;font-weight:600;margin:12px 0 5px}input{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px} .form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.catatan{color:#64748b;font-size:13px}
+  </style>
+  <script>if (!localStorage.getItem('token')) window.location.replace('login.html');</script>
+</head>
+<body>
+  <header>
+    <h1>Dashboard Admin</h1>
+    <div class="akun">Login sebagai: <strong id="info-user"></strong> (<span id="info-role"></span>)
+      <button class="keluar" id="btn-logout" type="button">Logout</button>
+    </div>
+  </header>
+  <section class="ringkasan">Total Mahasiswa: <strong id="total-mahasiswa">...</strong></section>
+  <div class="toolbar"><h2>Data Mahasiswa</h2><button id="btn-tambah" class="aksi-admin" type="button">+ Tambah Mahasiswa</button></div>
+  <div class="table-wrap"><table id="tabel-mahasiswa">
+    <thead><tr><th>Foto</th><th>NIM</th><th>Nama</th><th>Program Studi</th><th class="aksi-admin">Aksi</th></tr></thead>
+    <tbody><tr><td colspan="5">Memuat data...</td></tr></tbody>
+  </table></div>
+  <p class="catatan">Foto harus berupa JPG/PNG dengan ukuran maksimal 2MB. Pengelolaan data hanya tersedia untuk akun dengan role admin.</p>
+
+  <dialog id="dialog-mahasiswa">
+    <h2 id="judul-form">Tambah Mahasiswa</h2>
+    <form id="form-mahasiswa" enctype="multipart/form-data">
+      <input type="hidden" id="mahasiswa-id">
+      <label for="nim">NIM</label><input id="nim" name="nim" maxlength="30" required>
+      <label for="nama">Nama</label><input id="nama" name="nama" maxlength="120" required>
+      <label for="prodi">Program Studi</label><input id="prodi" name="prodi" maxlength="120" required>
+      <label for="foto">Foto (JPG/PNG, maksimal 2MB)</label><input type="file" id="foto" name="foto" accept="image/jpeg,image/png">
+      <p class="catatan" id="info-foto">Foto boleh dikosongkan.</p>
+      <div class="form-actions"><button type="button" class="keluar" id="btn-batal">Batal</button><button type="submit" id="btn-simpan">Simpan</button></div>
+    </form>
+  </dialog>
+  <script src="dashboard.js"></script>
+</body>
+</html>
