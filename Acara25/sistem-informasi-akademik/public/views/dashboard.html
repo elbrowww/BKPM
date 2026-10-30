@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Sistem Informasi Akademik</title>
+  <style>
+    *{box-sizing:border-box}body{font-family:Arial,sans-serif;max-width:1000px;margin:32px auto;padding:0 18px;color:#243047;background:#f8fafc}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{margin:0}
+    .akun{display:flex;align-items:center;gap:12px}.ringkasan{background:#eaf1ff;padding:18px;border-radius:10px;margin:22px 0;font-size:17px}
+    .toolbar{display:flex;justify-content:space-between;align-items:center;margin:18px 0;gap:10px}
+    button{border:0;border-radius:6px;padding:9px 13px;background:#2457a7;color:white;cursor:pointer}button.hapus{background:#b42318}button.keluar{background:#475569}
+    table{border-collapse:collapse;width:100%;background:#fff}th,td{border:1px solid #cbd5e1;padding:10px;text-align:left}th{background:#eaf0f8}
+    td button{margin-right:5px}.catatan{color:#64748b;font-size:13px}
+  </style>
+  <script>
+    // Perlindungan halaman di sisi browser; API tetap memvalidasi token dan role di backend.
+    if (!localStorage.getItem('token')) window.location.replace('login.html');
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Dashboard Admin</h1>
+    <div class="akun">Login sebagai: <strong id="info-user"></strong> (<span id="info-role"></span>)
+      <button class="keluar" id="btn-logout">Logout</button>
+    </div>
+  </header>
+  <section class="ringkasan">Total Mahasiswa: <strong id="total-mahasiswa">...</strong></section>
+  <div class="toolbar"><h2>Data Mahasiswa</h2><button id="btn-tambah" class="aksi-admin">+ Tambah Mahasiswa</button></div>
+  <table id="tabel-mahasiswa">
+    <thead><tr><th>NIM</th><th>Nama</th><th>Program Studi</th><th class="aksi-admin">Aksi</th></tr></thead>
+    <tbody><tr><td colspan="4">Memuat data...</td></tr></tbody>
+  </table>
+  <p class="catatan">Pengelolaan data hanya tersedia untuk akun dengan role admin.</p>
+  <script src="dashboard.js"></script>
+</body>
+</html>
