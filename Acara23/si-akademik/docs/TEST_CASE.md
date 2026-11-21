@@ -57,7 +57,7 @@ Prasyarat: sudah login dan memiliki token valid; data mahasiswa dengan `id=1` ad
 
 | Total Test Case | Pass | Fail |
 |-----------------|------|------|
-| 15              |      |      |
+| 15              |   12 |   3  |
 
 ## 5. Perbaikan dan Retest — Tugas Mandiri 2
 
