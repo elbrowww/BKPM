@@ -3,7 +3,7 @@ info:
   title: API Sistem Informasi Akademik (MVC)
   version: 1.0.0
 servers:
-  - url: http://localhost/sistem-informasi-akademik/public
+  - url: http://http://localhost/BKPM/Acara19/si-akademik/public/mahasiswa
 paths:
   /register:
     post:

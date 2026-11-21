@@ -5,7 +5,7 @@ class Database {
     public static function getConnection(): PDO {
         if (self::$connection === null) {
             $host    = 'localhost';
-            $db      = 'si-akademik';
+            $db      = 'si_akademik17/18';
             $charset = 'utf8mb4';
             $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
             $options = [
