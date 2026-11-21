@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ubah Mahasiswa - Sistem Informasi Akademik</title>
+  <link rel="stylesheet" href="ui.css">
+  <script>
+    if (!localStorage.getItem('token')) window.location.replace('login.html');
+    else if (localStorage.getItem('role') !== 'admin') { sessionStorage.setItem('flash', JSON.stringify({pesan:'Hanya admin yang dapat mengubah data.',tipe:'gagal'})); window.location.replace('dashboard.html'); }
+  </script>
+</head>
+<body>
+  <main class="kartu">
+    <h1>Ubah Mahasiswa</h1>
+    <form id="form-edit" novalidate>
+      <label for="nim">NIM <span class="wajib">*</span></label><input id="nim" name="nim" maxlength="30">
+      <label for="nama">Nama <span class="wajib">*</span></label><input id="nama" name="nama" maxlength="120">
+      <label for="prodi">Program Studi <span class="wajib">*</span></label><input id="prodi" name="prodi" maxlength="120">
+      <label for="foto">Foto (JPG/PNG, maksimal 2MB)</label><input type="file" id="foto" name="foto" accept="image/jpeg,image/png">
+      <div id="foto-saat-ini"></div>
+      <p class="catatan">Pilih foto baru untuk menggantinya; kosongkan untuk mempertahankan foto lama. Tanda <span class="wajib">*</span> wajib diisi.</p>
+      <div class="form-actions"><a class="btn keluar" href="dashboard.html">Batal</a><button type="submit" id="btn-simpan">Simpan</button></div>
+    </form>
+  </main>
+  <script src="ui.js"></script>
+  <script src="form_edit.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Teruskan header Authorization ke PHP (Apache sering membuangnya)
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule ^ - [E=HTTP_AUTHORIZATION:%1]
+
+# Biarkan file statis (views/index.html, views/app.js, dll) diakses langsung
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Selain itu, teruskan ke Front Controller
+RewriteRule ^ index.php [QSA,L]
