@@ -16,6 +16,19 @@ class Mahasiswa {
         return $stmt->fetch();
     }
 
+    /** Cek NIM sudah dipakai. $excludeId dipakai saat update agar data sendiri tidak dihitung. */
+    public function nimExists(string $nim, ?int $excludeId = null): bool {
+        $sql = 'SELECT COUNT(*) FROM mahasiswa WHERE nim = :nim';
+        $params = [':nim' => $nim];
+        if ($excludeId !== null) {
+            $sql .= ' AND id <> :id';
+            $params[':id'] = $excludeId;
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return (int) $stmt->fetchColumn() > 0;
+    }
+
     public function create(array $data): string {
         try {
             $stmt = $this->db->prepare(

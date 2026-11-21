@@ -25,12 +25,20 @@ class MahasiswaController {
         Auth::requireAuth();
         $data = $this->readJsonBody();
         $this->validateData($data);
+        if ($this->model->nimExists((string) $data['nim'])) {
+            Response::json(422, false, 'NIM sudah terdaftar.');
+        }
         $id = $this->model->create($data);
         Response::json(201, true, 'Data berhasil ditambahkan.', ['id' => $id]);
     }
 
     public function update($id): void {
         Auth::requireAuth();
+        $data = $this->readJsonBody();
+        // id dari query string (?id=) atau, jika kosong, dari field "id" pada body JSON.
+        if ($id === null || $id === '') {
+            $id = $data['id'] ?? null;
+        }
         if ($id === null || $id === '') {
             Response::json(400, false, 'Parameter id wajib diisi untuk memperbarui data.');
         }
@@ -41,8 +49,10 @@ class MahasiswaController {
         if (!$this->model->find($id)) {
             Response::json(404, false, 'Data mahasiswa tidak ditemukan.');
         }
-        $data = $this->readJsonBody();
         $this->validateData($data);
+        if ($this->model->nimExists((string) $data['nim'], $id)) {
+            Response::json(422, false, 'NIM sudah dipakai mahasiswa lain.');
+        }
         $this->model->update($id, $data);
         Response::json(200, true, 'Data berhasil diperbarui.', ['id' => $id]);
     }
