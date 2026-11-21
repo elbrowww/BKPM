@@ -37,15 +37,15 @@ Prasyarat: sudah login dan memiliki token valid; data mahasiswa dengan `id=1` ad
 
 | ID    | Skenario                         | Partisi | Data Uji                  | Hasil Diharapkan  | Hasil Aktual | Status |
 |-------|----------------------------------|---------|---------------------------|-------------------|--------------|--------|
-| TC-07| Update data valid dengan token (`::update`)     | Valid| id=1, nama baru, token valid| 200 OK|          |        |
-| TC-08| Update dengan ID tidak ada                   | Tidak valid    | id=9999, token valid| 404 Not Found      |        |
-| TC-09| Update dengan NIM kosong                     | Tidak valid    | id=1, nim="", token valid| 400/422 |       |        |
-| TC-10| Update tanpa token                    | Tidak valid    | id=1, tanpa header Authorization |401 Unauthorized|    |        |
-| TC-11| Update dengan NIM milik mahasiswa lain (duplikat)| Tidak valid | id=1, nim milik id lain, token valid|422 Unprocessable|    |    |
-| TC-12| Hapus data valid dengan token (`::destroy`)  | Valid  | id=1, token valid | 200 OK|              |        |
-| TC-13| Hapus dengan ID tidak ada        | Tidak valid    | id=9999, token valid | 404 Not Found|      |        |
-| TC-14| Hapus tanpa token          | Tidak valid    | id=1, tanpa header Authorization  | 401 Unauthorized |        |        |
-| TC-15| Hapus dengan ID bukan angka | Tidak valid    | id=abc, token valid | 400/422 |              |        |
+| TC-07| Update data valid dengan token (`::update`)     | Valid| id=1, nama baru, token valid| 200 OK|   200 OK  |  Pass      |
+| TC-08| Update dengan ID tidak ada                   | Tidak valid    | id=9999, token valid| 404 Not Found|400 Bad Request| Fail |
+| TC-09| Update dengan NIM kosong               | Tidak valid    | id=1, nim="", token valid| 400/422 |400 Bad Request|Pass     |
+| TC-10| Update tanpa token                    | Tidak valid    | id=1, tanpa header Authorization |401 Unauthorized| 401 Unauthorized |  Pass      |
+| TC-11| Update dengan NIM milik mahasiswa lain (duplikat)| Tidak valid | id=1, nim milik id lain, token valid|422 Unprocessable|400 Bad Request| Fail   |
+| TC-12| Hapus data valid dengan token (`::destroy`)  | Valid  | id=1, token valid | 200 OK|  200 OK     |  Pass   |
+| TC-13| Hapus dengan ID tidak ada        | Tidak valid    | id=9999, token valid | 404 Not Found|  404 Not Found| Pass  |
+| TC-14| Hapus tanpa token          | Tidak valid    | id=1, tanpa header Authorization  | 401 Unauthorized | 401 Unauthorized| Pass |
+| TC-15| Hapus dengan ID bukan angka | Tidak valid    | id=abc, token valid | 400/422 | 400 Bad Request | Pass    |
 
 ## 3. Eksekusi Pengujian Manual
 
