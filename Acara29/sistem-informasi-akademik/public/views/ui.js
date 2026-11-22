@@ -7,6 +7,7 @@ const isAdmin = role === 'admin';
 function esc(value) {
     return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+const escapeHTML = esc;   // Acara 29: nama standar; esc juga meloloskan tanda kutip (aman untuk atribut)
 function fotoUrl(nama) { return nama ? `${BASE_URL}/uploads/${encodeURIComponent(nama)}` : ''; }
 
 // ---------- Notifikasi visual (Tugas 1) ----------
@@ -80,9 +81,17 @@ function bersihkanErrorSaatMengetik(form) {
 function hapusSesi() { ['token', 'role', 'username'].forEach(k => localStorage.removeItem(k)); }
 async function panggilApi(path, options = {}) {
     const headers = { ...(options.headers || {}), Authorization: `Bearer ${token}` };
+    // Acara 29: retry otomatis 1x hanya untuk GET (POST/PUT/DELETE tidak diulang agar tidak terkirim ganda)
+    const bolehRetry = !options.method || options.method.toUpperCase() === 'GET';
     let response;
     try {
-        response = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+        try {
+            response = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+        } catch (e) {
+            if (!bolehRetry) throw e;
+            await new Promise(r => setTimeout(r, 800));
+            response = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+        }
     } catch (e) {
         toast('Tidak dapat menghubungi server. Periksa koneksi Anda.', 'gagal');
         return null;
@@ -99,4 +108,11 @@ async function panggilApi(path, options = {}) {
         return null;
     }
     return hasil;
+}
+
+// ---------- Acara 29: status sibuk tombol submit ----------
+function setSibuk(tombol, sibuk, teksSibuk = 'Menyimpan...') {
+    if (sibuk) { tombol.dataset.teks = tombol.textContent; tombol.textContent = teksSibuk; }
+    else if (tombol.dataset.teks) { tombol.textContent = tombol.dataset.teks; }
+    tombol.disabled = sibuk;
 }

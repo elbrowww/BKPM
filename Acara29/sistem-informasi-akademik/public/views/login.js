@@ -7,6 +7,8 @@ document.querySelector('#form-login').addEventListener('submit', async (event) =
     const pesan = document.querySelector('#pesan');
     const username = document.querySelector('#username').value.trim();
     const password = document.querySelector('#password').value;
+    const tombol = event.target.querySelector('button[type="submit"]');
+    setSibuk(tombol, true, 'Memeriksa...');
     pesan.textContent = 'Memeriksa akun...';
     try {
         const response = await fetch(`${BASE_URL}/login`, {
@@ -26,5 +28,7 @@ document.querySelector('#form-login').addEventListener('submit', async (event) =
     } catch (error) {
         console.error(error);
         pesan.textContent = 'Tidak dapat menghubungi server'; toast(pesan.textContent, 'gagal');
+    } finally {
+        setSibuk(tombol, false);
     }
 });

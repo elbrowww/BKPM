@@ -23,17 +23,24 @@ async function muatData() {
     }).join('');
 }
 
-async function hapusData(id, nama) {
+async function hapusData(id, nama, tombol) {
     if (!confirm(`Hapus data "${nama}" beserta fotonya?`)) return;
-    const hasil = await panggilApi(`/mahasiswa/${id}`, { method: 'DELETE' });
-    if (hasil) {
-        toast(hasil.message || 'Mahasiswa berhasil dihapus');
-        await muatData();   // tabel diperbarui tanpa reload halaman
+    setSibuk(tombol, true, 'Menghapus...');
+    try {
+        const hasil = await panggilApi(`/mahasiswa/${id}`, { method: 'DELETE' });
+        if (hasil) {
+            toast(hasil.message || 'Mahasiswa berhasil dihapus');
+            await muatData();   // tabel diperbarui tanpa reload halaman
+        }
+    } catch (e) {
+        toast('Terjadi kesalahan tak terduga.', 'gagal');
+    } finally {
+        if (tombol.isConnected) setSibuk(tombol, false);
     }
 }
 tbody.addEventListener('click', (e) => {
     const btn = e.target.closest('button.hapus');
-    if (btn) hapusData(btn.dataset.id, btn.dataset.nama);
+    if (btn) hapusData(btn.dataset.id, btn.dataset.nama, btn);
 });
 
 muatData();

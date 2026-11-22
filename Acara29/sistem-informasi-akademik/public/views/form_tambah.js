@@ -13,12 +13,14 @@ form.addEventListener('submit', async (event) => {
     ['nim', 'nama', 'prodi'].forEach(k => data.set(k, data.get(k).trim()));
 
     const tombol = document.querySelector('#btn-simpan');
-    tombol.disabled = true;
+    setSibuk(tombol, true);
     try {
         const hasil = await panggilApi('/mahasiswa', { method: 'POST', body: data });
         if (hasil) {
             toastSetelahPindah(hasil.message || 'Mahasiswa berhasil ditambahkan');
             window.location.replace('dashboard.html');
         }
-    } finally { tombol.disabled = false; }
+    } catch (e) {
+        toast('Terjadi kesalahan tak terduga.', 'gagal');
+    } finally { setSibuk(tombol, false); }
 });

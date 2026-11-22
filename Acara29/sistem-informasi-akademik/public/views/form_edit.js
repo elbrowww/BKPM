@@ -28,14 +28,16 @@ async function simpanPerubahan(id) {
     data.append('_method', 'PUT');   // PHP hanya mengisi $_FILES pada POST; index.php meneruskannya sebagai PUT
 
     const tombol = document.querySelector('#btn-simpan');
-    tombol.disabled = true;
+    setSibuk(tombol, true);
     try {
         const hasil = await panggilApi(`/mahasiswa/${encodeURIComponent(id)}`, { method: 'POST', body: data });
         if (hasil) {
             toastSetelahPindah(hasil.message || 'Mahasiswa berhasil diperbarui');
             window.location.replace('dashboard.html');
         }
-    } finally { tombol.disabled = false; }
+    } catch (e) {
+        toast('Terjadi kesalahan tak terduga.', 'gagal');
+    } finally { setSibuk(tombol, false); }
 }
 
 if (!id || !/^\d+$/.test(id)) {
