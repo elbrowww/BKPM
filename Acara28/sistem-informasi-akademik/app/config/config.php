@@ -3,7 +3,7 @@
 // Produksi: set DB_PASS, APP_SECRET, SEED_ADMIN_PASS, SEED_USER_PASS (atau kosongkan seed lalu buat akun manual).
 return [
     'db_host' => getenv('DB_HOST') ?: 'localhost',
-    'db_name' => getenv('DB_NAME') ?: 'si_akademik27',
+    'db_name' => getenv('DB_NAME') ?: 'si_akademik28',
     'db_user' => getenv('DB_USER') ?: 'root',
     'db_pass' => getenv('DB_PASS') !== false ? getenv('DB_PASS') : '',
     // Kunci rahasia untuk menandatangani token. WAJIB diganti di produksi (APP_SECRET).

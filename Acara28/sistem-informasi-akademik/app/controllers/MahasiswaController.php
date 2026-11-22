@@ -111,7 +111,7 @@ class MahasiswaController {
         if (!$info || !isset($allowed[$mime])) {
             Response::json(422, false, 'Berkas harus berupa gambar JPG/PNG yang valid');
         }
-        $dir = __DIR__ . '/../../public/uploads';
+        $dir = self::folderUpload();
         if (!is_dir($dir) && !mkdir($dir, 0755, true) && !is_dir($dir)) {
             Response::json(500, false, 'Folder upload tidak dapat dibuat');
         }
@@ -124,7 +124,12 @@ class MahasiswaController {
 
     private function hapusFoto(?string $nama): void {
         if (!$nama || basename($nama) !== $nama) return;
-        $path = __DIR__ . '/../../public/uploads/' . $nama;
+        $path = self::folderUpload() . '/' . $nama;
         if (is_file($path)) @unlink($path);
+    }
+        private static function folderUpload(): string {
+        $lokal = __DIR__ . '/../../public/uploads';
+        if (is_dir($lokal)) return $lokal;
+        return rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/uploads';
     }
 }

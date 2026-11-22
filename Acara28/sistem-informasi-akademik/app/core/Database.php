@@ -7,14 +7,11 @@ class Database {
             $cfg = require __DIR__ . '/../config/config.php';
             try {
                 $pdo = new PDO(
-                    "mysql:host={$cfg['db_host']};charset=utf8mb4",
+                    "mysql:host={$cfg['db_host']};dbname={$cfg['db_name']};charset=utf8mb4",
                     $cfg['db_user'], $cfg['db_pass'],
                     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
                 );
-                $dbName = str_replace('`', '', $cfg['db_name']);
-                $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-                $pdo->exec("USE `{$dbName}`");
                 self::migrate($pdo);
                 self::$pdo = $pdo;
             } catch (PDOException $e) {
