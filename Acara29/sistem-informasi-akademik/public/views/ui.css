@@ -1,0 +1,22 @@
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;max-width:1100px;margin:32px auto;padding:0 18px;color:#243047;background:#f8fafc}
+button,.btn{border:0;border-radius:6px;padding:9px 13px;background:#2457a7;color:#fff;cursor:pointer;text-decoration:none;font-size:14px;display:inline-block}
+button.hapus{background:#b42318}button.keluar,.btn.keluar{background:#475569}button:disabled{opacity:.6;cursor:wait}
+label{display:block;font-weight:600;margin:14px 0 5px}
+input{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}
+input.invalid{border-color:#b42318;background:#fff5f4}
+.error-field{color:#b42318;font-size:13px;margin-top:4px;min-height:0}
+.catatan{color:#64748b;font-size:13px}
+.kartu{background:#fff;max-width:520px;margin:0 auto;padding:26px;border-radius:12px;box-shadow:0 8px 28px #18233a18}
+.kartu h1{margin-top:0}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.foto{width:58px;height:58px;object-fit:cover;border-radius:8px;background:#e2e8f0}
+.foto-lama{width:96px;height:96px;object-fit:cover;border-radius:10px;display:block;margin-top:8px}
+.wajib{color:#b42318}
+/* Toast */
+#toast-wadah{position:fixed;top:16px;right:16px;display:flex;flex-direction:column;gap:10px;z-index:9999;max-width:min(380px,92vw)}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;color:#fff;box-shadow:0 8px 24px #0f172a40;animation:masuk .25s ease;font-size:14px}
+.toast-sukses{background:#15803d}.toast-gagal{background:#b42318}
+.toast-ikon{font-weight:bold;font-size:16px}.toast-teks{flex:1}
+.toast-tutup{background:transparent;padding:0 4px;font-size:18px;line-height:1;color:#fff}
+.toast.hilang{opacity:0;transform:translateX(20px);transition:.25s}
+@keyframes masuk{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
