@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: API Sistem Informasi Akademik
+  version: "1.0.0"
+  description: API CRUD mahasiswa dengan autentikasi token Bearer.
+servers:
+  - url: https://elbrowww.my.id
+    description: Produksi
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data: { nullable: true }
+    Mahasiswa:
+      type: object
+      properties:
+        id: { type: integer }
+        nim: { type: string }
+        nama: { type: string }
+        prodi: { type: string }
+        foto: { type: string, nullable: true }
+    MahasiswaForm:
+      type: object
+      required: [nim, nama, prodi]
+      properties:
+        nim: { type: string, maxLength: 30 }
+        nama: { type: string, maxLength: 120 }
+        prodi: { type: string, maxLength: 120 }
+        foto: { type: string, format: binary, description: "JPG atau PNG, maksimal 2 MB" }
+  responses:
+    Unauthorized:
+      description: Token tidak ada, tidak valid, atau kedaluwarsa
+      content: { application/json: { schema: { $ref: "#/components/schemas/ApiResponse" } } }
+    Forbidden:
+      description: Bukan admin
+      content: { application/json: { schema: { $ref: "#/components/schemas/ApiResponse" } } }
+    NotFound:
+      description: Data tidak ditemukan
+      content: { application/json: { schema: { $ref: "#/components/schemas/ApiResponse" } } }
+    Invalid:
+      description: Validasi gagal
+      content: { application/json: { schema: { $ref: "#/components/schemas/ApiResponse" } } }
+paths:
+  /:
+    get:
+      summary: Cek API berjalan
+      responses:
+        "200": { description: API berjalan }
+  /login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string }
+                password: { type: string, format: password }
+      responses:
+        "200": { description: "Login berhasil, data berisi token, role, username" }
+        "401": { description: Username atau password salah }
+        "422": { $ref: "#/components/responses/Invalid" }
+  /register:
+    post:
+      summary: Registrasi akun (role selalu user)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string }
+                password: { type: string, minLength: 6 }
+      responses:
+        "201": { description: Registrasi berhasil }
+        "409": { description: Username sudah dipakai }
+        "422": { $ref: "#/components/responses/Invalid" }
+  /mahasiswa:
+    get:
+      summary: Daftar mahasiswa, atau satu data bila id diisi
+      parameters:
+        - name: id
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Data mahasiswa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                  data:
+                    oneOf:
+                      - type: array
+                        items: { $ref: "#/components/schemas/Mahasiswa" }
+                      - $ref: "#/components/schemas/Mahasiswa"
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Tambah mahasiswa (admin)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema: { $ref: "#/components/schemas/MahasiswaForm" }
+      responses:
+        "201": { description: "Mahasiswa ditambahkan, data berisi id dan foto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/Invalid" }
+  /mahasiswa/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    put:
+      summary: Ubah mahasiswa (admin)
+      description: Dari browser kirim POST dengan field tambahan _method=PUT agar PHP mengisi $_FILES.
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema: { $ref: "#/components/schemas/MahasiswaForm" }
+      responses:
+        "200": { description: Mahasiswa diperbarui }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/Invalid" }
+    delete:
+      summary: Hapus mahasiswa beserta fotonya (admin)
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Mahasiswa dihapus }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/Invalid" }
